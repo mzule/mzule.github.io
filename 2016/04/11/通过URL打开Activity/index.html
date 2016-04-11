@@ -3,17 +3,30 @@
 <head>
   <meta charset="utf-8">
   
-  <title>mzule</title>
+  <title>通过 URL 打开 Activity | mzule</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description">
-<meta property="og:type" content="website">
-<meta property="og:title" content="mzule">
-<meta property="og:url" content="http://yoursite.com/index.html">
+  <meta name="description" content="为每个 Activity 绑定一个 url 可以方便的让第三方 app 直接打开这些 Activity。也可以方便在 app 内部进行页面跳转，解耦。
+
+背景举一个常见的案例，假设我们有个产品 A，产品 A 包含 h5 网页端和客户端，当用户在手机打开我们的 h5 网页端的时候，我们会期望如果用户手机安装了我们的客户端，则直接打开 app，否则停留在网页端浏览。
+这是一个很常见的需求，但是实现需要">
+<meta property="og:type" content="article">
+<meta property="og:title" content="通过 URL 打开 Activity">
+<meta property="og:url" content="http://yoursite.com/2016/04/11/通过URL打开Activity/index.html">
 <meta property="og:site_name" content="mzule">
-<meta property="og:description">
+<meta property="og:description" content="为每个 Activity 绑定一个 url 可以方便的让第三方 app 直接打开这些 Activity。也可以方便在 app 内部进行页面跳转，解耦。
+
+背景举一个常见的案例，假设我们有个产品 A，产品 A 包含 h5 网页端和客户端，当用户在手机打开我们的 h5 网页端的时候，我们会期望如果用户手机安装了我们的客户端，则直接打开 app，否则停留在网页端浏览。
+这是一个很常见的需求，但是实现需要">
+<meta property="og:image" content="http://7sbl54.com1.z0.glb.clouddn.com/blog_QQ20160411-22.png">
+<meta property="og:image" content="http://7sbl54.com1.z0.glb.clouddn.com/blog_chooser.png">
+<meta property="og:updated_time" content="2016-04-11T13:33:38.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="mzule">
-<meta name="twitter:description">
+<meta name="twitter:title" content="通过 URL 打开 Activity">
+<meta name="twitter:description" content="为每个 Activity 绑定一个 url 可以方便的让第三方 app 直接打开这些 Activity。也可以方便在 app 内部进行页面跳转，解耦。
+
+背景举一个常见的案例，假设我们有个产品 A，产品 A 包含 h5 网页端和客户端，当用户在手机打开我们的 h5 网页端的时候，我们会期望如果用户手机安装了我们的客户端，则直接打开 app，否则停留在网页端浏览。
+这是一个很常见的需求，但是实现需要">
+<meta name="twitter:image" content="http://7sbl54.com1.z0.glb.clouddn.com/blog_QQ20160411-22.png">
   
     <link rel="alternate" href="/atom.xml" title="mzule" type="application/atom+xml">
   
@@ -72,9 +85,7 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-    <article id="post-通过URL打开Activity" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-通过URL打开Activity" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2016/04/11/通过URL打开Activity/" class="article-date">
   <time datetime="2016-04-11T13:28:21.000Z" itemprop="datePublished">2016-04-11</time>
@@ -87,8 +98,8 @@
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/04/11/通过URL打开Activity/">通过 URL 打开 Activity</a>
+    <h1 class="article-title" itemprop="name">
+      通过 URL 打开 Activity
     </h1>
   
 
@@ -150,11 +161,16 @@
     </footer>
   </div>
   
+    
+  
 </article>
 
 
-  
-
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
 </section>
         
           <aside id="sidebar">
@@ -240,11 +256,13 @@
 <script>
   var disqus_shortname = 'mzule';
   
+  var disqus_url = 'http://yoursite.com/2016/04/11/通过URL打开Activity/';
+  
   (function(){
     var dsq = document.createElement('script');
     dsq.type = 'text/javascript';
     dsq.async = true;
-    dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
   })();
 </script>
