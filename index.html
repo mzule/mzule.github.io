@@ -15,11 +15,14 @@
 <meta name="twitter:title" content="mzule">
 <meta name="twitter:description">
   
+    <link rel="alternate" href="/atom.xml" title="mzule" type="application/atom+xml">
+  
   
     <link rel="icon" href="/favicon.png">
   
-  <link href="/webfonts/ptserif/main.css" rel='stylesheet' type='text/css'>
-  <link href="/webfonts/source-code-pro/main.css" rel="stylesheet" type="text/css">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
   <link rel="stylesheet" href="/css/style.css">
   
 
@@ -27,80 +30,57 @@
 
 <body>
   <div id="container">
-    <header id="header">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
   <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">mzule</a>
+      </h1>
+      
+    </div>
     <div id="header-inner" class="inner">
-      <a id="main-nav-toggle" class="nav-icon" href="javascript:;"></a>
-      <a id="logo" class="logo logo-text" href="/">MZULE</a>
       <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
         
           <a class="main-nav-link" href="/archives">Archives</a>
         
-          <a class="main-nav-link" href="/ActivityRouter">ActivityRouter</a>
+          <a class="main-nav-link" href="http://mzule.github.io/ActivityRouter">ActivityRouter</a>
+        
+          <a class="main-nav-link" href="http://mzule.github.io/EasyAdapter">EasyAdapter</a>
         
           <a class="main-nav-link" href="http://github.com/mzule">Github</a>
         
           <a class="main-nav-link" href="http://weibo.com/mzule">Weibo</a>
         
-          <a class="main-nav-link" href="/about">About</a>
+          <a class="main-nav-link" href="/about/">About</a>
         
       </nav>
       <nav id="sub-nav">
-        <div id="search-form-wrap">
-          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
-        </div>
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Søk"></a>
       </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
     </div>
   </div>
 </header>
-    <section id="main" class="outer">
-      <article id="post-me" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
+      <div class="outer">
+        <section id="main">
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/04/10/me/">About</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2016/04/10/me/" class="article-date">
-  <time datetime="2016-04-10T15:20:14.000Z" itemprop="datePublished">2016-04-10</time>
+    <article id="post-Sample" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/04/10/Sample/" class="article-date">
+  <time datetime="2016-04-10T11:18:54.000Z" itemprop="datePublished">2016-04-10</time>
 </a>
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="一、简介"><a href="#一、简介" class="headerlink" title="一、简介"></a>一、简介</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">- (Human *) aboutMe &#123;</span><br><span class="line">	Human *me = [[Human alloc] init];</span><br><span class="line">	me.name = @<span class="string">"曹冬平"</span>;</span><br><span class="line">	me.englishName = @<span class="string">"Jason Cao"</span>;</span><br><span class="line">	me.gender = @<span class="string">"男"</span>;</span><br><span class="line">	me.email = [NSString stringWithFormat:@<span class="string">"%@@%@"</span>,@<span class="string">"mzule4j"</span>,@<span class="string">"gmail.com"</span>];</span><br><span class="line">	me.location = @<span class="string">"上海"</span>;</span><br><span class="line">	me.company = @<span class="string">"Baidu, Inc."</span>;</span><br><span class="line">	me.hobbies = @[@<span class="string">"编码"</span>,@<span class="string">"旅游"</span>,@<span class="string">"看书"</span>,@<span class="string">"品美食"</span>,@<span class="string">"睡懒觉"</span>,@<span class="string">"偶尔运动"</span>];</span><br><span class="line">	me.labels = @[@<span class="string">"攻城师"</span>,@<span class="string">"电商"</span>,@<span class="string">"Geek"</span>];</span><br><span class="line">	me.motto = @<span class="string">"the devil is in detail"</span>;</span><br><span class="line">	<span class="keyword">return</span> me;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="二、曾经的博客"><a href="#二、曾经的博客" class="headerlink" title="二、曾经的博客"></a>二、曾经的博客</h2><p><a href="http://www.cnblogs.com/codeplus" target="_blank" rel="external">http://www.cnblogs.com/codeplus</a></p>
-<p><a href="http://blog.csdn.net/mzule" target="_blank" rel="external">http://blog.csdn.net/mzule</a></p>
-<h2 id="三、开源项目"><a href="#三、开源项目" class="headerlink" title="三、开源项目"></a>三、开源项目</h2><h3 id="ActivityRouter"><a href="#ActivityRouter" class="headerlink" title="ActivityRouter"></a><a href="https://mzule.github.io/ActivityRouter/" target="_blank" rel="external">ActivityRouter</a></h3><p><code>ActivityRouter</code>可以方便的给Activity定义url，然后通过url打开Activity.</p>
-<h3 id="EasyAdapter"><a href="#EasyAdapter" class="headerlink" title="EasyAdapter"></a><a href="github.com/mzule/EasyAdapter/">EasyAdapter</a></h3><p><code>EasyAdapter</code>极大的简化ViewHolder模式的Adapter开发。</p>
-<h2 id="四、更多的了解"><a href="#四、更多的了解" class="headerlink" title="四、更多的了解"></a>四、更多的了解</h2><p><a href="http://www.github.com/mzule" target="_blank" rel="external">Github</a></p>
-<p><a href="http://stackoverflow.com/users/1985786/jason-cao" target="_blank" rel="external">StackOverFlow</a></p>
-<p><a href="http://weibo.com/mzule" target="_blank" rel="external">Sina Weibo</a></p>
-<h2 id="五、小伙伴的链接"><a href="#五、小伙伴的链接" class="headerlink" title="五、小伙伴的链接"></a>五、小伙伴的链接</h2><p><a href="http://www.yimiwuli.com" target="_blank" rel="external">http://www.yimiwuli.com</a></p>
-<p><a href="http://www.barryzhang.com" target="_blank" rel="external">http://www.barryzhang.com</a></p>
-<p><a href="http://www.zcool.com.cn/u/1683871" target="_blank" rel="external">http://www.zcool.com.cn/u/1683871</a></p>
-<p><a href="http://blog.csdn.net/barryhappy" target="_blank" rel="external">http://blog.csdn.net/barryhappy</a></p>
-
-      
-    </div>
-    
     
   </div>
-  
-</article>
-
-
-    
-      <article id="post-Sample" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
     
@@ -114,27 +94,29 @@
 
       </header>
     
-    <div class="article-meta">
-      <a href="/2016/04/10/Sample/" class="article-date">
-  <time datetime="2016-04-10T11:18:54.000Z" itemprop="datePublished">2016-04-10</time>
-</a>
-      
-      
-    </div>
     <div class="article-entry" itemprop="articleBody">
       
         
       
     </div>
-    
-    
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/04/10/Sample/" data-id="cimvrmigx0002cyquiskpqs06" class="article-share-link">Share</a>
+      
+      
+    </footer>
   </div>
   
 </article>
 
 
+  
+    <article id="post-Hello-World" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/04/10/Hello-World/" class="article-date">
+  <time datetime="2016-04-10T10:36:37.000Z" itemprop="datePublished">2016-04-10</time>
+</a>
     
-      <article id="post-Hello-World" class="article article-type-post" itemscope itemprop="blogPost">
+  </div>
   <div class="article-inner">
     
     
@@ -148,43 +130,106 @@
 
       </header>
     
-    <div class="article-meta">
-      <a href="/2016/04/10/Hello-World/" class="article-date">
-  <time datetime="2016-04-10T10:36:37.000Z" itemprop="datePublished">2016-04-10</time>
-</a>
-      
-      
-    </div>
     <div class="article-entry" itemprop="articleBody">
       
         <p>额，我还没想好写什么…</p>
 
       
     </div>
-    
-    
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/04/10/Hello-World/" data-id="cimvrmigp0001cyquoj8jqc2d" class="article-share-link">Share</a>
+      
+      
+    </footer>
   </div>
   
 </article>
 
 
-    </section>
-    <footer id="footer">
+  
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Arkiv</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Siste innlegg</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/04/10/Sample/">Sample</a>
+          </li>
+        
+          <li>
+            <a href="/2016/04/10/Hello-World/">Hello World</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2016 mzule&nbsp;
-      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, theme by <a href="http://github.com/ppoffice">PPOffice</a>
+      &copy; 2016 mzule<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
 </footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="http://mzule.github.io/ActivityRouter" class="mobile-nav-link">ActivityRouter</a>
+  
+    <a href="http://mzule.github.io/EasyAdapter" class="mobile-nav-link">EasyAdapter</a>
+  
+    <a href="http://github.com/mzule" class="mobile-nav-link">Github</a>
+  
+    <a href="http://weibo.com/mzule" class="mobile-nav-link">Weibo</a>
+  
+    <a href="/about/" class="mobile-nav-link">About</a>
+  
+</nav>
     
 
-<script src="/js/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
 
 
 <script src="/js/script.js"></script>
+
   </div>
 </body>
 </html>
