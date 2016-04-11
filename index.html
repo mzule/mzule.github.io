@@ -63,7 +63,7 @@
         
           <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Søk"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
       </nav>
       <div id="search-form-wrap">
         <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
@@ -98,51 +98,17 @@
       
         <p>为每个 Activity 绑定一个 url 可以方便的让第三方 app 直接打开这些 Activity。也可以方便在 app 内部进行页面跳转，解耦。</p>
 <p><img src="http://7sbl54.com1.z0.glb.clouddn.com/blog_QQ20160411-22.png" alt=""></p>
-<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>举一个常见的案例，假设我们有个产品 A，产品 A 包含 h5 网页端和客户端，当用户在手机打开我们的 h5 网页端的时候，我们会期望如果用户手机安装了我们的客户端，则直接打开 app，否则停留在网页端浏览。</p>
-<p>这是一个很常见的需求，但是实现需要 h5 和 Android 的配合，本文会先说下原理，然后单独描述 Android 端需要做的事情，最后会给一个链接说明 h5 的工作。</p>
-<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>Android 端先给 Activity 绑定一个 url ，比如说是 <code>myapp://main</code>. </p>
-<p>用户访问 <code>http://myapp.com</code> 网页时，h5 尝试访问 <code>myapp://main</code>，如果用户安装了客户端，则会打开相应的 Activity，否则会继续留在 h5 浏览网页。</p>
-<p>那么，如何给 Activity 绑定一个 url 是在 Android 端的关键。</p>
-<h2 id="Android-实现"><a href="#Android-实现" class="headerlink" title="Android 实现"></a>Android 实现</h2><p>创建一个空的 ViewActivity.</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ViewActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在 <code>AndroidManifest.xml</code> 里面注册 ViewActivity，包含一个 action 为  <code>android.intent.action.VIEW</code> 的 <code>intent-filter</code></p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">activity</span></span><br><span class="line">    <span class="attr">android:name</span>=<span class="string">".ViewActivity"</span></span><br><span class="line">    <span class="attr">android:theme</span>=<span class="string">"@android:style/Theme.NoDisplay"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">intent-filter</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">"android.intent.action.VIEW"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">category</span> <span class="attr">android:name</span>=<span class="string">"android.intent.category.DEFAULT"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">category</span> <span class="attr">android:name</span>=<span class="string">"android.intent.category.BROWSABLE"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">data</span> <span class="attr">android:scheme</span>=<span class="string">"myapp"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">activity</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>这样，<code>ViewActivity</code> 就具备了接收 <code>myapp</code> 协议的 <code>android.intent.action.VIEW</code> 事件的能力。比如说，如果某个 app 执行了下面的这段逻辑，我们的 ViewActivity 就可能被打开。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Intent intent = <span class="keyword">new</span> Intent(Intent.ACTION_VIEW);</span><br><span class="line">intent.setData(Uri.parse(<span class="string">"myapp://dosomething"</span>));</span><br><span class="line">startActivity(intent);</span><br></pre></td></tr></table></figure>
-<p>刚才之所以说 “可能被打开”，是为了严谨。因为完全可能用户手机上，还有另外一个 app 也声明了一样协议的 intent-filter. 这时候系统就会给出一个弹出框，让用户选择一个期望的应用来打开该地址。</p>
-<p><img src="http://7sbl54.com1.z0.glb.clouddn.com/blog_chooser.png" alt=""></p>
-<p>既然入口找到了，接下来就简单了，无非就是实现一下 ViewActivity 处理跳转逻辑，比如这样。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ViewActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        Uri uri = getIntent().getData();</span><br><span class="line">        String url = uri.toString();</span><br><span class="line">        <span class="keyword">if</span> (<span class="string">"myapp://main"</span>.equals(url)) &#123;</span><br><span class="line">            startActivity(<span class="keyword">new</span> Intent(ViewActivity.<span class="keyword">this</span>, MainActivity.class));</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="string">"myapp://user"</span>.equals(url)) &#123;</span><br><span class="line">            startActivity(<span class="keyword">new</span> Intent(ViewActivity.<span class="keyword">this</span>, UserActivity.class));</span><br><span class="line">        &#125;</span><br><span class="line">        finish();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>但是上面这种，这是一个理想的情况，因为现实情况会复杂的多。比如说会遇到传参问题，打开一个 UserActivity 可能都是需要指定一个 userId 的。不过再怎么复杂，无非就是对一个 url 的解析。</p>
-<p>下面会介绍一个我写的开源项目，省掉了解析 url 的麻烦，下面会基于这个库来说明。</p>
-<h2 id="库"><a href="#库" class="headerlink" title="库"></a>库</h2><p>这个库叫 <a href="https://github.com/mzule/ActivityRouter" target="_blank" rel="external">ActivityRouter</a>，通过给 Activity 添加注解来绑定 url. 首先我们要把库添加到项目里面来, 需要修改两个 build.gradle 文件。</p>
-<p>项目根目录的 build.gradle</p>
-<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">buildscript &#123;</span><br><span class="line">  dependencies &#123;</span><br><span class="line">    classpath <span class="string">'com.neenbedankt.gradle.plugins:android-apt:1.7'</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>app 项目的 build.gradle</p>
-<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">apply <span class="string">plugin:</span> <span class="string">'android-apt'</span></span><br><span class="line"></span><br><span class="line">dependencies &#123;</span><br><span class="line">    compile <span class="string">'com.github.mzule.activityrouter:activityrouter:1.1.1'</span></span><br><span class="line">    apt <span class="string">'com.github.mzule.activityrouter:compiler:1.1.1'</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这样，等项目 sync 完 ActivityRouter 就已经被集成在项目里面了。</p>
-<p>此外还需要改一个配置，之前在 <code>AndroidManifest.xml</code> 上注册的 ViewActivity 现在要换成 ActivityRouter 里面自带的 Activity，这样 ActivityRouter 才有机会处理相关的 Intent 事件。修改完的 <code>AndroidManifest.xml</code> 如下：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">activity</span></span><br><span class="line">    <span class="attr">android:name</span>=<span class="string">"com.github.mzule.activityrouter.router.RouterActivity"</span></span><br><span class="line">    <span class="attr">android:theme</span>=<span class="string">"@android:style/Theme.NoDisplay"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">intent-filter</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">"android.intent.action.VIEW"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">category</span> <span class="attr">android:name</span>=<span class="string">"android.intent.category.DEFAULT"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">category</span> <span class="attr">android:name</span>=<span class="string">"android.intent.category.BROWSABLE"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">data</span> <span class="attr">android:scheme</span>=<span class="string">"myapp"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">activity</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>接下来就是去修改需要绑定 url 的 Activity，添加注解即可，一个典型的实现如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Router</span>(<span class="string">"main"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span> </span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>一个需要参数的 Activity 可以这样声明：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Router</span>(<span class="string">"user/:userId"</span>) <span class="comment">// :userId 代表参数名为 userId</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        String userId = getIntent().getStringExtra(<span class="string">"userId"</span>); <span class="comment">// 获取参数 userId</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>也可以给参数指定类型，比如说常见的 id 为 long 型.</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Router</span>(value = <span class="string">"user/:userId"</span>, longExtra = <span class="string">"userId"</span>)</span><br></pre></td></tr></table></figure>
-<p>这样我们就可以通过 <code>myapp://main</code> 来访问 MainActivity, <code>myapp://user/89757</code> 来访问 UserActivity 并且 userId = 89757 了。</p>
-<h2 id="H5-实现"><a href="#H5-实现" class="headerlink" title="H5 实现"></a>H5 实现</h2><p>如上文所说网页自动跳转到 app 需要 h5 配合，由于 h5 已经超越了 Android 的范畴，这边就直接贴个链接。</p>
-<p><a href="http://t.cn/RqMTBDZ" target="_blank" rel="external">http://t.cn/RqMTBDZ</a></p>
-<p><a href="http://t.cn/RzOQWGU" target="_blank" rel="external">http://t.cn/RzOQWGU</a></p>
-<h2 id="App-内应用场景"><a href="#App-内应用场景" class="headerlink" title="App 内应用场景"></a>App 内应用场景</h2><p>除了第三方 app 跳转场景外，还可以在 app 内部 Activity 跳转时采用 Router 来实现，比如在 Android 端和后端约定好页面对应的 url，后端在发送 push 的时候，就可以发送特定的 url，客户端只需要处理打开 url 即可，可以有效减少 push 通知的适配工作。相关 API 如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Routers.open(Context, String)</span><br><span class="line">Routers.open(Context, Uri)</span><br></pre></td></tr></table></figure>
-<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>哈哈，感谢你看到这里。</p>
-
+        
+          <p class="article-more-link">
+            <a href="/2016/04/11/通过URL打开Activity/#more">Read More</a>
+          </p>
+        
       
     </div>
     <footer class="article-footer">
       <a data-url="http://yoursite.com/2016/04/11/通过URL打开Activity/" data-id="cimw2d8le0000p9queondg23p" class="article-share-link">Share</a>
       
-        <a href="http://yoursite.com/2016/04/11/通过URL打开Activity/#disqus_thread" class="article-comment-link">Kommentarer</a>
+        <a href="http://yoursite.com/2016/04/11/通过URL打开Activity/#disqus_thread" class="article-comment-link">Comments</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ActivityRouter/">ActivityRouter</a></li></ul>
@@ -183,7 +149,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Arkiv</h3>
+    <h3 class="widget-title">Archives</h3>
     <div class="widget">
       <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a></li></ul>
     </div>
@@ -193,7 +159,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Siste innlegg</h3>
+    <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
         
