@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>使用WindowManager自定义toast | mzule</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Android 原生的 Toast 十分好用，功能也很强大，扩展性也十分 OK，但是有一个致命的缺点：一旦用户屏蔽了 App 的通知权限，则 Toast 也不会显示了！">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用WindowManager自定义toast">
+<meta property="og:url" content="http://yoursite.com/2015/09/11/使用WindowManager自定义toast/index.html">
+<meta property="og:site_name" content="mzule">
+<meta property="og:description" content="Android 原生的 Toast 十分好用，功能也很强大，扩展性也十分 OK，但是有一个致命的缺点：一旦用户屏蔽了 App 的通知权限，则 Toast 也不会显示了！">
+<meta property="og:image" content="http://7sbl54.com1.z0.glb.clouddn.com/blog_QQ20150911-1@2x.png">
+<meta property="og:updated_time" content="2016-05-01T16:35:42.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用WindowManager自定义toast">
+<meta name="twitter:description" content="Android 原生的 Toast 十分好用，功能也很强大，扩展性也十分 OK，但是有一个致命的缺点：一旦用户屏蔽了 App 的通知权限，则 Toast 也不会显示了！">
+<meta name="twitter:image" content="http://7sbl54.com1.z0.glb.clouddn.com/blog_QQ20150911-1@2x.png">
+  
+    <link rel="alternate" href="/atom.xml" title="mzule" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">mzule</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="http://mzule.github.io/ActivityRouter">ActivityRouter</a>
+        
+          <a class="main-nav-link" href="http://mzule.github.io/EasyAdapter">EasyAdapter</a>
+        
+          <a class="main-nav-link" href="http://github.com/mzule">Github</a>
+        
+          <a class="main-nav-link" href="http://weibo.com/mzule">Weibo</a>
+        
+          <a class="main-nav-link" href="/about/">About</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-使用WindowManager自定义toast" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/09/11/使用WindowManager自定义toast/" class="article-date">
+  <time datetime="2015-09-11T12:10:59.000Z" itemprop="datePublished">2015-09-11</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      使用WindowManager自定义toast
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Android 原生的 Toast 十分好用，功能也很强大，扩展性也十分 OK，但是有一个致命的缺点：一旦用户屏蔽了 App 的通知权限，则 Toast 也不会显示了！</p>
+<a id="more"></a>
+<p><img src="http://7sbl54.com1.z0.glb.clouddn.com/blog_QQ20150911-1@2x.png" alt=""></p>
+<p>对于一个上线的产品，这个当然是不能忍的。于是我们会用一些方式来规避这个问题。</p>
+<p>首先可能会想到的，是实现一个自定义的 ToastView，在合适的时间将 View 显示在  android.R.id.content 这个 ViewGroup 里面。但是这样并不是十分管用，因为这样的话， ToastView 会和 Acitivity 绑定在一起，当 Activity 不可见时，相应的 Toast 也不可见了。</p>
+<p>此时，我们想到另外一种方式，是通过 WindowManager 来处理 ToastView. WindowManager 管理着每个窗口的前后顺序，如果我们把 ToastView 添加到 WindowManager 里面，则就可以一直显示在屏幕上啦。</p>
+<p>知道了方法，我们就开发做。其实代码也很简单，直接贴出来了。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Toast</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> LENGTH_SHORT = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> LENGTH_LONG = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> LONG_DELAY = <span class="number">3500</span>; </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> SHORT_DELAY = <span class="number">2000</span>; </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Context context;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> WindowManager windowManager;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">(Context context)</span> </span>&#123;</span><br><span class="line">        Toast.context = context.getApplicationContext();</span><br><span class="line">        windowManager = (WindowManager) context.getApplicationContext().getSystemService(Context.WINDOW_SERVICE);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">show</span><span class="params">(String text)</span> </span>&#123;</span><br><span class="line">        show(text, LENGTH_SHORT);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">show</span><span class="params">(<span class="keyword">final</span> String text, <span class="keyword">int</span> length)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">final</span> TextView textView = <span class="keyword">new</span> TextView(context);</span><br><span class="line">        textView.setBackgroundResource(android.R.drawable.toast_frame); <span class="comment">//设置成官方原生的 Toast 背景</span></span><br><span class="line">        textView.setText(text);</span><br><span class="line"></span><br><span class="line">        WindowManager.LayoutParams lp = <span class="keyword">new</span> WindowManager.LayoutParams();</span><br><span class="line">        lp.type = WindowManager.LayoutParams.TYPE_TOAST;</span><br><span class="line">        lp.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE; <span class="comment">//设置这个 window 不可点击，不会获取焦点，这样可以不干扰背后的 Activity 的交互。</span></span><br><span class="line">        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;</span><br><span class="line">        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;</span><br><span class="line">        lp.format = PixelFormat.TRANSLUCENT; <span class="comment">//这样可以保证 Window 的背景是透明的，不然背景可能是黑色或者白色。</span></span><br><span class="line">        lp.windowAnimations = android.R.style.Animation_Toast; <span class="comment">//使用官方原生的 Toast 动画效果</span></span><br><span class="line"></span><br><span class="line">        windowManager.addView(textView, lp);</span><br><span class="line">        textView.postDelayed(<span class="keyword">new</span> Runnable() &#123; <span class="comment">// 指定时间后，取消 Toast 显示</span></span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                windowManager.removeView(textView);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;, length == LENGTH_SHORT ? SHORT_DELAY : LONG_DELAY);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>因为这里的 context 和 WindowManager 都是整个 Application 生命周期的，这里就直接用 static 引用了。其余的见注释好了。</p>
+<p>其实如果仔细看官方 android.weidget.Toast 的源码，也可以看到，官方的 Toast 也是通过 WindowManager#addView(View) 来实现的。相关代码我也贴出来：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handleShow</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (localLOGV) &#123;</span><br><span class="line">        Log.v(TAG, <span class="string">"HANDLE SHOW: "</span> + <span class="keyword">this</span> + <span class="string">" mView="</span> + mView</span><br><span class="line">                + <span class="string">" mNextView="</span> + mNextView);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (mView != mNextView) &#123;</span><br><span class="line">        <span class="comment">// remove the old view if necessary</span></span><br><span class="line">        handleHide();</span><br><span class="line">        mView = mNextView;</span><br><span class="line">        Context context = mView.getContext().getApplicationContext();</span><br><span class="line">        String packageName = mView.getContext().getOpPackageName();</span><br><span class="line">        <span class="keyword">if</span> (context == <span class="keyword">null</span>) &#123;</span><br><span class="line">            context = mView.getContext();</span><br><span class="line">        &#125;</span><br><span class="line">        mWM = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);</span><br><span class="line">        <span class="comment">// We can resolve the Gravity here by using the Locale for getting</span></span><br><span class="line">        <span class="comment">// the layout direction</span></span><br><span class="line">        <span class="keyword">final</span> Configuration config = mView.getContext().getResources().getConfiguration();</span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">int</span> gravity = Gravity.getAbsoluteGravity(mGravity, config.getLayoutDirection());</span><br><span class="line">        mParams.gravity = gravity;</span><br><span class="line">        <span class="keyword">if</span> ((gravity &amp; Gravity.HORIZONTAL_GRAVITY_MASK) == Gravity.FILL_HORIZONTAL) &#123;</span><br><span class="line">            mParams.horizontalWeight = <span class="number">1.0f</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> ((gravity &amp; Gravity.VERTICAL_GRAVITY_MASK) == Gravity.FILL_VERTICAL) &#123;</span><br><span class="line">            mParams.verticalWeight = <span class="number">1.0f</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        mParams.x = mX;</span><br><span class="line">        mParams.y = mY;</span><br><span class="line">        mParams.verticalMargin = mVerticalMargin;</span><br><span class="line">        mParams.horizontalMargin = mHorizontalMargin;</span><br><span class="line">        mParams.packageName = packageName;</span><br><span class="line">        <span class="keyword">if</span> (mView.getParent() != <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (localLOGV) &#123;</span><br><span class="line">                Log.v(TAG, <span class="string">"REMOVE! "</span> + mView + <span class="string">" in "</span> + <span class="keyword">this</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            mWM.removeView(mView);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (localLOGV) &#123;</span><br><span class="line">            Log.v(TAG, <span class="string">"ADD! "</span> + mView + <span class="string">" in "</span> + <span class="keyword">this</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        mWM.addView(mView, mParams);</span><br><span class="line">        trySendAccessibilityEvent();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2015/09/11/使用WindowManager自定义toast/" data-id="cinosvf540002z3qu3udn8b3l" class="article-share-link">Share</a>
+      
+        <a href="http://yoursite.com/2015/09/11/使用WindowManager自定义toast/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2015/11/08/规避NullPointException的一些策略/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          规避 NullPointException 的一些策略
+        
+      </div>
+    </a>
+  
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ActivityRouter/">ActivityRouter</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/ActivityRouter/" style="font-size: 10px;">ActivityRouter</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/04/11/通过URL打开Activity/">通过 URL 打开 Activity</a>
+          </li>
+        
+          <li>
+            <a href="/2015/11/08/规避NullPointException的一些策略/">规避 NullPointException 的一些策略</a>
+          </li>
+        
+          <li>
+            <a href="/2015/09/11/使用WindowManager自定义toast/">使用WindowManager自定义toast</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 mzule<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="http://mzule.github.io/ActivityRouter" class="mobile-nav-link">ActivityRouter</a>
+  
+    <a href="http://mzule.github.io/EasyAdapter" class="mobile-nav-link">EasyAdapter</a>
+  
+    <a href="http://github.com/mzule" class="mobile-nav-link">Github</a>
+  
+    <a href="http://weibo.com/mzule" class="mobile-nav-link">Weibo</a>
+  
+    <a href="/about/" class="mobile-nav-link">About</a>
+  
+</nav>
+    
+<script>
+  var disqus_shortname = 'mzule';
+  
+  var disqus_url = 'http://yoursite.com/2015/09/11/使用WindowManager自定义toast/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

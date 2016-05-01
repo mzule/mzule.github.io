@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>规避 NullPointException 的一些策略 | mzule</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="NullPointException 是 Android 开发中最常见，也最容易 fix 的异常之一。每当发生 NullPointException 时，解决方案大多都是根据错误堆栈，获取错误行数，然后加个 if (someObject != null) 的判断。看似简单的 fix，实际开发中，我们也不可能会对每个需要使用的 Object，进行非空判断，这样会导致代码十分冗余，而且，这样做，有些非">
+<meta property="og:type" content="article">
+<meta property="og:title" content="规避 NullPointException 的一些策略">
+<meta property="og:url" content="http://yoursite.com/2015/11/08/规避NullPointException的一些策略/index.html">
+<meta property="og:site_name" content="mzule">
+<meta property="og:description" content="NullPointException 是 Android 开发中最常见，也最容易 fix 的异常之一。每当发生 NullPointException 时，解决方案大多都是根据错误堆栈，获取错误行数，然后加个 if (someObject != null) 的判断。看似简单的 fix，实际开发中，我们也不可能会对每个需要使用的 Object，进行非空判断，这样会导致代码十分冗余，而且，这样做，有些非">
+<meta property="og:image" content="http://7sbl54.com1.z0.glb.clouddn.com/blog_Screen%20Shot%202015-11-08%20at%2011.34.27.png">
+<meta property="og:updated_time" content="2016-05-01T16:47:14.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="规避 NullPointException 的一些策略">
+<meta name="twitter:description" content="NullPointException 是 Android 开发中最常见，也最容易 fix 的异常之一。每当发生 NullPointException 时，解决方案大多都是根据错误堆栈，获取错误行数，然后加个 if (someObject != null) 的判断。看似简单的 fix，实际开发中，我们也不可能会对每个需要使用的 Object，进行非空判断，这样会导致代码十分冗余，而且，这样做，有些非">
+<meta name="twitter:image" content="http://7sbl54.com1.z0.glb.clouddn.com/blog_Screen%20Shot%202015-11-08%20at%2011.34.27.png">
+  
+    <link rel="alternate" href="/atom.xml" title="mzule" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">mzule</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="http://mzule.github.io/ActivityRouter">ActivityRouter</a>
+        
+          <a class="main-nav-link" href="http://mzule.github.io/EasyAdapter">EasyAdapter</a>
+        
+          <a class="main-nav-link" href="http://github.com/mzule">Github</a>
+        
+          <a class="main-nav-link" href="http://weibo.com/mzule">Weibo</a>
+        
+          <a class="main-nav-link" href="/about/">About</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-规避NullPointException的一些策略" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/11/08/规避NullPointException的一些策略/" class="article-date">
+  <time datetime="2015-11-08T07:39:51.000Z" itemprop="datePublished">2015-11-08</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      规避 NullPointException 的一些策略
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>NullPointException 是 Android 开发中最常见，也最容易 fix 的异常之一。每当发生 NullPointException 时，解决方案大多都是根据错误堆栈，获取错误行数，然后加个 <code>if (someObject != null)</code> 的判断。看似简单的 fix，实际开发中，我们也不可能会对每个需要使用的 Object，进行非空判断，这样会导致代码十分冗余，而且，这样做，有些非空判断，可能永远都是返回 true. 除了给代码添加行数外，也没什么实际意义。</p>
+<p>所以，问题的关键是，要辨别对象是否可能为空，然后给可能为空的变量进行非空判断。下面总结了几种策略来帮我们处理辨别对象是否为空的情况。</p>
+<a id="more"></a>
+<p>1、@Nullable</p>
+<p>@Nullable 是 Java的一个注解，可以对成员变量，方法，以及方法参数进行修饰。分别对应成员变量、方法返回值、方法参数可能为空。调用者在使用这些变量、方法时，应该进行非空判断。借助 Android Studio IDE，如果使用前没有进行非空判断，IDE 会有一个 warning，提醒进行非空判断。相应的还有一个 @Nonnull 注解，修饰范围和 @Nullable 一样，标记变量或者返回值不可能为空，调用方无需进行非空判断。</p>
+<p><img src="http://7sbl54.com1.z0.glb.clouddn.com/blog_Screen%20Shot%202015-11-08%20at%2011.34.27.png" alt=""></p>
+<p>2、命名约定</p>
+<p>通过命名约定来变量、返回值可能为空的情况，比如，nullableDate，nullableString, getNullableVersionName()，调用方根据方法名、变量名，判断是否需要非空判断。</p>
+<p>3、Optional\<t\></t\></p>
+<p>Optional\<t\> 使用一个 Optional 泛型包装一个可能为空的对象，当调用方发现当前类型为 Optional 时，应该进行一下 Optional 对应的 value 是否为空的判断，然后进行后续操作。Optional 可以看做是一种强制进行非空判断的策略。</t\></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Optional</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> T value;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">boolean</span> isChecked;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Optional</span><span class="params">(T value)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.value = value;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="function">Optional&lt;T&gt; <span class="title">create</span><span class="params">(T t)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Optional&lt;&gt;(t);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="function">Optional&lt;T&gt; <span class="title">nullValue</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Optional&lt;&gt;(<span class="keyword">null</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> T <span class="title">get</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">assert</span> isChecked : <span class="string">"You must call isPresent() first before get()"</span>;</span><br><span class="line">        <span class="keyword">return</span> value;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isPresent</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        isChecked = <span class="keyword">true</span>;</span><br><span class="line">        <span class="keyword">return</span> value != <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>4、 防御性编程</p>
+<p>其实上面任何一条都不是完美的，因为我们无法做到整个项目都遵循这些策略，毕竟我们的项目底层依赖 SDK，还引用了大量第三方 framework，简称别人的代码，这些别人的代码，是如何处理非空问题的，大多都没有遵循以上任意一条，我们也就无法通过一些约定来进行处理判断。此时，不要相信任何外界输入输出。在使用第三方方法、网络数据时，多个心眼，多加判断，往往是利大于弊。</p>
+<p>我们在写 library 时，要考虑别人传来的参数的可能情况，做好防御。给别人返回值时，集合类返回 emptyList/emptyMap，数组返回 0 长数组。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2015/11/08/规避NullPointException的一些策略/" data-id="cinosxkwk0005z3qudpi2jh9j" class="article-share-link">Share</a>
+      
+        <a href="http://yoursite.com/2015/11/08/规避NullPointException的一些策略/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/04/11/通过URL打开Activity/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          通过 URL 打开 Activity
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2015/09/11/使用WindowManager自定义toast/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">使用WindowManager自定义toast</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ActivityRouter/">ActivityRouter</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/ActivityRouter/" style="font-size: 10px;">ActivityRouter</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/04/11/通过URL打开Activity/">通过 URL 打开 Activity</a>
+          </li>
+        
+          <li>
+            <a href="/2015/11/08/规避NullPointException的一些策略/">规避 NullPointException 的一些策略</a>
+          </li>
+        
+          <li>
+            <a href="/2015/09/11/使用WindowManager自定义toast/">使用WindowManager自定义toast</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 mzule<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="http://mzule.github.io/ActivityRouter" class="mobile-nav-link">ActivityRouter</a>
+  
+    <a href="http://mzule.github.io/EasyAdapter" class="mobile-nav-link">EasyAdapter</a>
+  
+    <a href="http://github.com/mzule" class="mobile-nav-link">Github</a>
+  
+    <a href="http://weibo.com/mzule" class="mobile-nav-link">Weibo</a>
+  
+    <a href="/about/" class="mobile-nav-link">About</a>
+  
+</nav>
+    
+<script>
+  var disqus_shortname = 'mzule';
+  
+  var disqus_url = 'http://yoursite.com/2015/11/08/规避NullPointException的一些策略/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

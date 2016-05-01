@@ -63,7 +63,7 @@
         
           <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Søk"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
       </nav>
       <div id="search-form-wrap">
         <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
@@ -106,13 +106,100 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/04/11/通过URL打开Activity/" data-id="cimw2d8le0000p9queondg23p" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/04/11/通过URL打开Activity/" data-id="cinosvf4v0000z3quex8u8717" class="article-share-link">Share</a>
       
-        <a href="http://yoursite.com/2016/04/11/通过URL打开Activity/#disqus_thread" class="article-comment-link">Kommentarer</a>
+        <a href="http://yoursite.com/2016/04/11/通过URL打开Activity/#disqus_thread" class="article-comment-link">Comments</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ActivityRouter/">ActivityRouter</a></li></ul>
 
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-规避NullPointException的一些策略" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/11/08/规避NullPointException的一些策略/" class="article-date">
+  <time datetime="2015-11-08T07:39:51.000Z" itemprop="datePublished">2015-11-08</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/11/08/规避NullPointException的一些策略/">规避 NullPointException 的一些策略</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>NullPointException 是 Android 开发中最常见，也最容易 fix 的异常之一。每当发生 NullPointException 时，解决方案大多都是根据错误堆栈，获取错误行数，然后加个 <code>if (someObject != null)</code> 的判断。看似简单的 fix，实际开发中，我们也不可能会对每个需要使用的 Object，进行非空判断，这样会导致代码十分冗余，而且，这样做，有些非空判断，可能永远都是返回 true. 除了给代码添加行数外，也没什么实际意义。</p>
+<p>所以，问题的关键是，要辨别对象是否可能为空，然后给可能为空的变量进行非空判断。下面总结了几种策略来帮我们处理辨别对象是否为空的情况。</p>
+        
+          <p class="article-more-link">
+            <a href="/2015/11/08/规避NullPointException的一些策略/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2015/11/08/规避NullPointException的一些策略/" data-id="cinosxkwk0005z3qudpi2jh9j" class="article-share-link">Share</a>
+      
+        <a href="http://yoursite.com/2015/11/08/规避NullPointException的一些策略/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-使用WindowManager自定义toast" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/09/11/使用WindowManager自定义toast/" class="article-date">
+  <time datetime="2015-09-11T12:10:59.000Z" itemprop="datePublished">2015-09-11</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/09/11/使用WindowManager自定义toast/">使用WindowManager自定义toast</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Android 原生的 Toast 十分好用，功能也很强大，扩展性也十分 OK，但是有一个致命的缺点：一旦用户屏蔽了 App 的通知权限，则 Toast 也不会显示了！</p>
+        
+          <p class="article-more-link">
+            <a href="/2015/09/11/使用WindowManager自定义toast/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2015/09/11/使用WindowManager自定义toast/" data-id="cinosvf540002z3qu3udn8b3l" class="article-share-link">Share</a>
+      
+        <a href="http://yoursite.com/2015/09/11/使用WindowManager自定义toast/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
     </footer>
   </div>
   
@@ -149,9 +236,9 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Arkiv</h3>
+    <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a></li></ul>
     </div>
   </div>
 
@@ -159,12 +246,20 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Siste innlegg</h3>
+    <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
         
           <li>
             <a href="/2016/04/11/通过URL打开Activity/">通过 URL 打开 Activity</a>
+          </li>
+        
+          <li>
+            <a href="/2015/11/08/规避NullPointException的一些策略/">规避 NullPointException 的一些策略</a>
+          </li>
+        
+          <li>
+            <a href="/2015/09/11/使用WindowManager自定义toast/">使用WindowManager自定义toast</a>
           </li>
         
       </ul>
