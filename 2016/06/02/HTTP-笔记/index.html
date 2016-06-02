@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>HTTP 协议笔记 | mzule</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="回顾市场上面，基本上现在所有 app 都基于网络，电子商务，图片浏览，视频聊天，浏览网页无一不和网络密切相关。而网络请求，绝大部分都是基于 HTTP 协议，所以对 HTTP 的认知显得尤为重要。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HTTP 协议笔记">
+<meta property="og:url" content="http://yoursite.com/2016/06/02/HTTP-笔记/index.html">
+<meta property="og:site_name" content="mzule">
+<meta property="og:description" content="回顾市场上面，基本上现在所有 app 都基于网络，电子商务，图片浏览，视频聊天，浏览网页无一不和网络密切相关。而网络请求，绝大部分都是基于 HTTP 协议，所以对 HTTP 的认知显得尤为重要。">
+<meta property="og:image" content="http://7sbl54.com1.z0.glb.clouddn.com/blog_QQ20160602-1.jpg">
+<meta property="og:updated_time" content="2016-06-02T12:11:50.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="HTTP 协议笔记">
+<meta name="twitter:description" content="回顾市场上面，基本上现在所有 app 都基于网络，电子商务，图片浏览，视频聊天，浏览网页无一不和网络密切相关。而网络请求，绝大部分都是基于 HTTP 协议，所以对 HTTP 的认知显得尤为重要。">
+<meta name="twitter:image" content="http://7sbl54.com1.z0.glb.clouddn.com/blog_QQ20160602-1.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="mzule" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">mzule</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="http://mzule.github.io/ActivityRouter">ActivityRouter</a>
+        
+          <a class="main-nav-link" href="http://mzule.github.io/EasyAdapter">EasyAdapter</a>
+        
+          <a class="main-nav-link" href="http://github.com/mzule">GitHub</a>
+        
+          <a class="main-nav-link" href="http://weibo.com/mzule">Weibo</a>
+        
+          <a class="main-nav-link" href="/about/">About</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Zoeken"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-HTTP-笔记" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/06/02/HTTP-笔记/" class="article-date">
+  <time datetime="2016-06-02T12:00:33.000Z" itemprop="datePublished">2016-06-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      HTTP 协议笔记
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>回顾市场上面，基本上现在所有 app 都基于网络，电子商务，图片浏览，视频聊天，浏览网页无一不和网络密切相关。而网络请求，绝大部分都是基于 HTTP 协议，所以对 HTTP 的认知显得尤为重要。</p>
+<p><img src="http://7sbl54.com1.z0.glb.clouddn.com/blog_QQ20160602-1.jpg" alt=""></p>
+<a id="more"></a>
+<h2 id="1-HTTP-请求方法"><a href="#1-HTTP-请求方法" class="headerlink" title="1. HTTP 请求方法"></a>1. HTTP 请求方法</h2><h3 id="1-1-方法列表"><a href="#1-1-方法列表" class="headerlink" title="1.1 方法列表"></a>1.1 方法列表</h3><p>HTTP 方法除了我们熟悉的 GET POST PUT DELETE 外，还有一些其他方法，比如 HEAD CONNECT TRACE OPTIONS.</p>
+<ul>
+<li><strong>GET</strong>，请求服务器返回给定资源，不会对服务器发生修改。</li>
+<li><strong>POST</strong>，服务器提交数据，通常用在表单提交里面。</li>
+<li><strong>PUT</strong>，创建一个资源，比如 PUT /article/feel-fine-with-android 会创建一个 feel-fine-with-android 的资源。内容是请求的请求体。</li>
+<li><strong>DELETE</strong>，请求服务器删除地址资源。</li>
+<li><strong>HEAD</strong>，HEAD 方法和 GET 方法一样，区别在于该方法只会返回头部信息，没有内容。通常用来检查资源的状态。</li>
+<li><strong>CONNECT</strong>，HTTP/1.1协议预留，能够将连接改为管道方式的代理服务器。通常用于SSL加密服务器的链接与非加密的HTTP代理服务器的通信。</li>
+<li><strong>TRACE</strong>，调试用途，响应内容里面会包含请求处理路径。</li>
+<li><strong>OPTIONS</strong>，请求服务器输出自己支持的 HTTP 方法。</li>
+</ul>
+<h3 id="1-2-安全方法"><a href="#1-2-安全方法" class="headerlink" title="1.2 安全方法"></a>1.2 安全方法</h3><p>安全方法是指不会给服务器带来影响的方法，比如说 GET 和 HEAD 方法，就是安全方法，他们只会要求服务器输出资源，不会修改服务器的状态。</p>
+<h3 id="1-3-等幂性"><a href="#1-3-等幂性" class="headerlink" title="1.3 等幂性"></a>1.3 等幂性</h3><p>等幂性是指多次重复的请求能否保证资源的状态的一致性。比如说，GET 和 HEAD 请求，无论客户端请求多少次一样的 URL,得到的结果和服务器的状态都不会发生变化，所以他们是等幂的。而 POST 请求，一般情况下，都会提交数据给服务器修改服务器状态，多次提交就会多次修改状态，不具备等幂性。</p>
+<p>其实请求方法是否具有等幂性在于程序的实现，一般情况下，我们需要把 GET PUT DELETE HEAD 等设计成等幂性。</p>
+<h3 id="1-4-PUT-versus-POST"><a href="#1-4-PUT-versus-POST" class="headerlink" title="1.4 PUT versus POST"></a>1.4 PUT versus POST</h3><p>PUT 与 POST 常常会被认为很相似，其实他们是不同的，比较下面两个例子。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">PUT /article/i-am-a-aricle</span><br><span class="line"></span><br><span class="line">POST /article</span><br></pre></td></tr></table></figure>
+<p>通过对比可以看到，PUT 方法操作是相对于具体的资源，POST 操作则是对于资源的集合。而且 PUT 方法具有等幂性，多次 PUT 一个文章，服务器都会回存在这一个文章，而多次 POST 就很危险了。</p>
+<h2 id="2-HTTP-状态码"><a href="#2-HTTP-状态码" class="headerlink" title="2. HTTP 状态码"></a>2. HTTP 状态码</h2><h3 id="2-1-分类"><a href="#2-1-分类" class="headerlink" title="2.1 分类"></a>2.1 分类</h3><ul>
+<li>1xx 提示信息</li>
+<li>2xx 成功</li>
+<li>3xx 资源被转移</li>
+<li>4xx 客户端错误</li>
+<li>5xx 服务端错误</li>
+</ul>
+<h2 id="3-HTTP-报文格式"><a href="#3-HTTP-报文格式" class="headerlink" title="3. HTTP 报文格式"></a>3. HTTP 报文格式</h2><p>请求和响应的报文格式大体类似，基本格式如下</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">start</span> <span class="attr">line</span>&gt;</span>\r\n</span><br><span class="line"><span class="tag">&lt;<span class="name">headers</span>&gt;</span>\r\n</span><br><span class="line">\r\n</span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span>\r\n</span><br></pre></td></tr></table></figure>
+<p>都是由 start line, header, body 构成，主要区别在于 start line.</p>
+<h3 id="3-1-Request-格式"><a href="#3-1-Request-格式" class="headerlink" title="3.1 Request 格式"></a>3.1 Request 格式</h3><p>请求的 start line 由方法、请求路径和 HTTP 版本构成。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">method</span>&gt;</span> <span class="tag">&lt;<span class="name">url</span>&gt;</span> <span class="tag">&lt;<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">header</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>例子</p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">GET</span> <span class="string">/abc.html</span> HTTP/1.1</span><br><span class="line"><span class="attribute">Host</span>: 127.0.0.1</span><br></pre></td></tr></table></figure>
+<h3 id="3-2-Response-格式"><a href="#3-2-Response-格式" class="headerlink" title="3.2 Response 格式"></a>3.2 Response 格式</h3><p>响应的 start line 由 HTTP 版本、状态码和状态描述信息构成。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">version</span>&gt;</span> <span class="tag">&lt;<span class="name">status</span>&gt;</span> <span class="tag">&lt;<span class="name">phase</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">header</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>例子</p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">HTTP/1.1 <span class="number">200</span> OK</span><br><span class="line"><span class="attribute">Server</span>: Apache-Coyote/1.1</span><br><span class="line"><span class="attribute">Accept-Ranges</span>: bytes</span><br><span class="line"><span class="attribute">ETag</span>: W/"223-1460337344000"</span><br><span class="line"><span class="attribute">Last-Modified</span>: Mon, 11 Apr 2016 01:15:44 GMT</span><br><span class="line"><span class="attribute">Content-Type</span>: text/html</span><br><span class="line"><span class="attribute">Content-Length</span>: 223</span><br><span class="line"><span class="attribute">Date</span>: Thu, 02 Jun 2016 03:41:58 GMT</span><br><span class="line"></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">...</span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
+<h2 id="4-HTTP-传输"><a href="#4-HTTP-传输" class="headerlink" title="4. HTTP 传输"></a>4. HTTP 传输</h2><p>HTTP 报文传输是基于 TCP 协议与 IP 协议的，数据传输从建立 TCP 连接开始。</p>
+<h3 id="4-1-请求处理流程"><a href="#4-1-请求处理流程" class="headerlink" title="4.1 请求处理流程"></a>4.1 请求处理流程</h3><p>假设我们现在要访问 <a href="http://caodongping.me" target="_blank" rel="external">http://caodongping.me</a>, 相应的流程如下。</p>
+<p>1、 解析出 url 中的域名, caodongping.me</p>
+<p>2、通过 DNS 解析查询域名对应的 IP，192.30.252.153</p>
+<p>3、解析出 url 中的端口，默认端口 80</p>
+<p>4、通过 IP 和端口号，建立 TCP 连接，192.30.252.153:80</p>
+<p>5、通过 TCP 连接传输 HTTP 请求报文给服务器，</p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">GET</span> <span class="string">/</span> HTTP/1.1</span><br><span class="line"><span class="attribute">Host</span>: caodongping.me</span><br></pre></td></tr></table></figure>
+<p>6、服务器输出 HTTP 响应报文给客户端</p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">HTTP/1.1 <span class="number">200</span> OK</span><br><span class="line"><span class="attribute">Server</span>: GitHub.com</span><br><span class="line"><span class="attribute">Date</span>: Thu, 02 Jun 2016 12:00:45 GMT</span><br><span class="line"><span class="attribute">Content-Type</span>: text/html; charset=utf-8</span><br><span class="line"><span class="attribute">Content-Length</span>: 12692</span><br><span class="line"><span class="attribute">Last-Modified</span>: Wed, 25 May 2016 12:48:09 GMT</span><br><span class="line"><span class="attribute">Access-Control-Allow-Origin</span>: *</span><br><span class="line"><span class="attribute">Expires</span>: Thu, 02 Jun 2016 12:10:45 GMT</span><br><span class="line"><span class="attribute">Cache-Control</span>: max-age=600</span><br><span class="line"><span class="attribute">Accept-Ranges</span>: bytes</span><br><span class="line"><span class="attribute">X-GitHub-Request-Id</span>: 74F77098:7A86:3F0D6D4E:57501FED</span><br><span class="line"></span><br><span class="line"><span class="xml"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line">...</span></span><br></pre></td></tr></table></figure>
+<p>7、客户端关闭连接</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/06/02/HTTP-笔记/" data-id="cioxq2xhq0002s1quykzwaiyl" class="article-share-link">Delen</a>
+      
+        <a href="http://yoursite.com/2016/06/02/HTTP-笔记/#disqus_thread" class="article-comment-link">Commentaren</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2016/05/25/JKeyboardPanelSwitch-原理分析/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Ouder</strong>
+      <div class="article-nav-title">JKeyboardPanelSwitch 原理分析</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Labels</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ActivityRouter/">ActivityRouter</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/ActivityRouter/" style="font-size: 10px;">ActivityRouter</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archieven</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recente berichten</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/06/02/HTTP-笔记/">HTTP 协议笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2016/05/25/JKeyboardPanelSwitch-原理分析/">JKeyboardPanelSwitch 原理分析</a>
+          </li>
+        
+          <li>
+            <a href="/2016/04/11/通过URL打开Activity/">通过 URL 打开 Activity</a>
+          </li>
+        
+          <li>
+            <a href="/2015/11/08/规避NullPointException的一些策略/">规避 NullPointException 的一些策略</a>
+          </li>
+        
+          <li>
+            <a href="/2015/09/11/使用WindowManager自定义toast/">使用WindowManager自定义toast</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 mzule<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="http://mzule.github.io/ActivityRouter" class="mobile-nav-link">ActivityRouter</a>
+  
+    <a href="http://mzule.github.io/EasyAdapter" class="mobile-nav-link">EasyAdapter</a>
+  
+    <a href="http://github.com/mzule" class="mobile-nav-link">GitHub</a>
+  
+    <a href="http://weibo.com/mzule" class="mobile-nav-link">Weibo</a>
+  
+    <a href="/about/" class="mobile-nav-link">About</a>
+  
+</nav>
+    
+<script>
+  var disqus_shortname = 'mzule';
+  
+  var disqus_url = 'http://yoursite.com/2016/06/02/HTTP-笔记/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
