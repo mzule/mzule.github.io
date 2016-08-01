@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>draw text 文字对齐 | mzule</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="最近画一个自定义 view，涉及到蛮多 draw text 的地方，算是把恼人的文字对齐大体熟悉了。
+Android 在 draw 一段 text 的方法如下
+1public void drawText(String text, float x, float y, Paint paint)
+方法有四个参数，除了 y 其他都蛮好理解的。那么 y 为什么难理解呢？因为我们不知道 y 定义的是哪里的位置">
+<meta property="og:type" content="article">
+<meta property="og:title" content="draw text 文字对齐">
+<meta property="og:url" content="http://yoursite.com/2016/07/26/draw-text-文字对齐/index.html">
+<meta property="og:site_name" content="mzule">
+<meta property="og:description" content="最近画一个自定义 view，涉及到蛮多 draw text 的地方，算是把恼人的文字对齐大体熟悉了。
+Android 在 draw 一段 text 的方法如下
+1public void drawText(String text, float x, float y, Paint paint)
+方法有四个参数，除了 y 其他都蛮好理解的。那么 y 为什么难理解呢？因为我们不知道 y 定义的是哪里的位置">
+<meta property="og:image" content="http://7sbl54.com1.z0.glb.clouddn.com/QQ20160729-1.jpg">
+<meta property="og:updated_time" content="2016-07-31T02:42:45.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="draw text 文字对齐">
+<meta name="twitter:description" content="最近画一个自定义 view，涉及到蛮多 draw text 的地方，算是把恼人的文字对齐大体熟悉了。
+Android 在 draw 一段 text 的方法如下
+1public void drawText(String text, float x, float y, Paint paint)
+方法有四个参数，除了 y 其他都蛮好理解的。那么 y 为什么难理解呢？因为我们不知道 y 定义的是哪里的位置">
+<meta name="twitter:image" content="http://7sbl54.com1.z0.glb.clouddn.com/QQ20160729-1.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="mzule" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">mzule</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="http://mzule.github.io/ActivityRouter">ActivityRouter</a>
+        
+          <a class="main-nav-link" href="http://mzule.github.io/EasyAdapter">EasyAdapter</a>
+        
+          <a class="main-nav-link" href="http://github.com/mzule">GitHub</a>
+        
+          <a class="main-nav-link" href="http://weibo.com/mzule">Weibo</a>
+        
+          <a class="main-nav-link" href="/about/">About</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Zoeken"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-draw-text-文字对齐" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/07/26/draw-text-文字对齐/" class="article-date">
+  <time datetime="2016-07-26T03:20:51.000Z" itemprop="datePublished">2016-07-26</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      draw text 文字对齐
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近画一个自定义 view，涉及到蛮多 draw text 的地方，算是把恼人的文字对齐大体熟悉了。</p>
+<p>Android 在 draw 一段 text 的方法如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">drawText</span><span class="params">(String text, <span class="keyword">float</span> x, <span class="keyword">float</span> y, Paint paint)</span></span></span><br></pre></td></tr></table></figure>
+<p>方法有四个参数，除了 y 其他都蛮好理解的。那么 y 为什么难理解呢？因为我们不知道 y 定义的是哪里的位置？文字的顶部？底部？还是中间？其实我们是一头雾水。</p>
+<a id="more"></a>
+<p>下面一张图很好解释了 draw 一段文字垂直位置的说明。</p>
+<p><img src="http://7sbl54.com1.z0.glb.clouddn.com/QQ20160729-1.jpg" alt=""></p>
+<p>上图中 baseline 是上面方法参数中的 y。如果 y 是 0，那么绘制文字时，根据上面的图，可以发现，这会导致文字几乎都绘制在了 0 像素以上区域，也就是 view 之外了。只剩下 baseline 到 bottom 之间的距离保持在 view 内。如果 y 是 canvas 的高度，那么 baseline 到 bottom 之间的区域就会在 view 之外。</p>
+<p>Android 提供了一个 Paint.FontMetrics 类可以获取到上图 top / bottom 等值，top / bottom 都是相对于 baseline 的相对值，一般情况下，top 都是负数，bottom 都是正数。可以通过 Paint#getFontMetrics() 获取 Paint.FontMetrics.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">float</span> top = fontMetrics.top;</span><br><span class="line"><span class="keyword">float</span> bottom = fontMetrics.bottom;</span><br></pre></td></tr></table></figure>
+<p>假设我们有个 canvas，关于绘制文字，可能有下列情况，我们一一分析。</p>
+<p>1、垂直上对齐</p>
+<p>上对齐是指文字区域的 top 对应 canvas 的顶端，即 top = 0。其实只需要把 baseline 下移 abs(top) 个像素即可.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">canvas.drawText(<span class="string">"demo text"</span>, <span class="number">0</span>, abs(top), paint);</span><br></pre></td></tr></table></figure>
+<p>2、垂直下对齐</p>
+<p>和上对齐一样，这次要保证 bottom = canvas.getHeight(); 则 baseline = canvas.getHeight() - bottom.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">canvas.drawText(<span class="string">"demo text"</span>, <span class="number">0</span>, canvas.getHeight() - bottom, paint);</span><br></pre></td></tr></table></figure>
+<p>3、垂直居中对齐</p>
+<p>这个咋一看有点难办，其实居中对齐可以转换成上对齐，或者下对齐，然后确定一个对齐线。</p>
+<p>比如说，如果我们想采用上对齐来达到居中对齐。首先我们要先确定一个上对齐的对齐线。我们知道文字的高度是 bottom - top, 那么上对齐的线就是 alignLine = (canvasHeight - (bottom - top)) / 2，这样我们就可以依照这个对齐线来进行上对齐。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">canvas.drawText(<span class="string">"demo text"</span>, <span class="number">0</span>, canvas.getHeight() - (bottom - top) / <span class="number">2</span> + abs(top));</span><br></pre></td></tr></table></figure>
+<p>4、水平居中对齐</p>
+<p>考虑水平对齐，Paint 有个 measureText(String) 的方法可以获取要绘制的文字的预期宽度，这样根据文字宽度来调整 x 位置即可。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">float</span> textWidth = paint.measureText(<span class="string">"demo text"</span>);</span><br><span class="line"><span class="keyword">float</span> x = canvas.getWidth() / <span class="number">2</span> - textWidth / <span class="number">2</span>;</span><br><span class="line">canvas.drawText(<span class="string">"demo text"</span>, x, y, paint);</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/07/26/draw-text-文字对齐/" data-id="cira03kgz0002vjqu9cgpxlvi" class="article-share-link">Delen</a>
+      
+        <a href="http://yoursite.com/2016/07/26/draw-text-文字对齐/#disqus_thread" class="article-comment-link">Commentaren</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2016/06/02/HTTP-笔记/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Ouder</strong>
+      <div class="article-nav-title">HTTP 协议笔记</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Labels</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ActivityRouter/">ActivityRouter</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/ActivityRouter/" style="font-size: 10px;">ActivityRouter</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archieven</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recente berichten</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/07/26/draw-text-文字对齐/">draw text 文字对齐</a>
+          </li>
+        
+          <li>
+            <a href="/2016/06/02/HTTP-笔记/">HTTP 协议笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2016/05/25/JKeyboardPanelSwitch-原理分析/">JKeyboardPanelSwitch 原理分析</a>
+          </li>
+        
+          <li>
+            <a href="/2016/04/11/通过URL打开Activity/">通过 URL 打开 Activity</a>
+          </li>
+        
+          <li>
+            <a href="/2015/11/08/规避NullPointException的一些策略/">规避 NullPointException 的一些策略</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 mzule<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="http://mzule.github.io/ActivityRouter" class="mobile-nav-link">ActivityRouter</a>
+  
+    <a href="http://mzule.github.io/EasyAdapter" class="mobile-nav-link">EasyAdapter</a>
+  
+    <a href="http://github.com/mzule" class="mobile-nav-link">GitHub</a>
+  
+    <a href="http://weibo.com/mzule" class="mobile-nav-link">Weibo</a>
+  
+    <a href="/about/" class="mobile-nav-link">About</a>
+  
+</nav>
+    
+<script>
+  var disqus_shortname = 'mzule';
+  
+  var disqus_url = 'http://yoursite.com/2016/07/26/draw-text-文字对齐/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
